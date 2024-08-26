@@ -14,7 +14,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::factory(10)->create();
+        $user = User::factory()->create([
+            'name'  => 'basakest',
+            'email' => 'ab1652759879@qq.com',
+        ]);
+        $users = User::factory(9)->create();
+        $users->push($user);
 
         Ticket::factory(100)->recycle($users)->create();
 
