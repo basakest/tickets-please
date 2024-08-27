@@ -30,9 +30,15 @@ class AuthorTicketsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(User $author, Request $request): TicketResource
     {
-        //
+        $model = [
+            'title'       => $request->input('data.attributes.title'),
+            'description' => $request->input('data.attributes.description'),
+            'status'      => $request->input('data.attributes.status'),
+        ];
+
+        return new TicketResource($author->tickets()->create($model));
     }
 
     /**
