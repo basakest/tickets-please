@@ -8,7 +8,7 @@ use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class UserController extends ApiController
+class AuthorsController extends ApiController
 {
     /**
      * Display a listing of the resource.
