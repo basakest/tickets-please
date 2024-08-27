@@ -9,6 +9,7 @@ use App\Http\Resources\V1\TicketResource;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse as JsonResponseAlias;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TicketController extends ApiController
@@ -65,8 +66,10 @@ class TicketController extends ApiController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ticket $ticket)
+    public function destroy(Ticket $ticket): JsonResponseAlias
     {
-        //
+        // use route model binding will expose some back-end info
+        $ticket->delete();
+        return $this->ok('Ticket successfully deleted');
     }
 }

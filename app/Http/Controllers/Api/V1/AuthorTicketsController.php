@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Filters\V1\TicketFilter;
 use App\Http\Resources\V1\TicketResource;
+use App\Models\Ticket;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class AuthorTicketsController extends Controller
+class AuthorTicketsController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -68,8 +69,12 @@ class AuthorTicketsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $authorId, Ticket $ticket): JsonResponse
     {
-        //
+        if ($ticket->user_id === $authorId) {
+            $ticket->delete();
+            return $this->ok('Ticket successfully deleted');
+        }
+        return $this->error('Ticket not found', 404);
     }
 }
