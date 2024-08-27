@@ -7,13 +7,14 @@ use App\Http\Filters\V1\TicketFilter;
 use App\Http\Resources\V1\TicketResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class AuthorTicketsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(User $author, TicketFilter $filters)
+    public function index(User $author, TicketFilter $filters): AnonymousResourceCollection
     {
         return TicketResource::collection($author->tickets()->filter($filters)->paginate());
     }
