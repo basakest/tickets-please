@@ -6,12 +6,14 @@ use App\Http\Controllers\Api\V1\AuthorsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
 Route::prefix('v1')->group(function () {
-    Route::apiResource('tickets', TicketController::class)->middleware('auth:sanctum');
-    Route::apiResource('authors', AuthorsController::class)->middleware('auth:sanctum');
-    Route::apiResource('authors.tickets', AuthorTicketsController::class)->middleware('auth:sanctum');
-});
+    Route::apiResource('tickets', TicketController::class);
+    Route::put('tickets/{ticket}', [TicketController::class, 'replace']);
+    Route::apiResource('authors', AuthorsController::class);
+    Route::apiResource('authors.tickets', AuthorTicketsController::class);
+    Route::put('authors/{author}/tickets/{ticket}', [AuthorTicketsController::class, 'replace']);
+
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+})->middleware('auth:sanctum');

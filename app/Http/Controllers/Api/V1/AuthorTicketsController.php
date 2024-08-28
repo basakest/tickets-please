@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Filters\V1\TicketFilter;
+use App\Http\Requests\Api\V1\ReplaceTicketRequest;
 use App\Http\Resources\V1\TicketResource;
 use App\Models\Ticket;
 use App\Models\User;
@@ -64,6 +65,24 @@ class AuthorTicketsController extends ApiController
     public function update(Request $request, string $id)
     {
         //
+    }
+
+    public function replace(int $authorId, Ticket $ticket, ReplaceTicketRequest $request): JsonResponse|TicketResource
+    {
+        if ($authorId === $ticket->user_id) {
+            $model = [
+                'title'       => $request->input('data.attributes.title'),
+                'description' => $request->input('data.attributes.description'),
+                'status'      => $request->input('data.attributes.status'),
+                'user_id'     => $request->input('data.relationships.author.data.id'),
+            ];
+
+            $ticket->update($model);
+
+            return TicketResource::make($ticket);
+        }
+        // TODO: ticket doesn't belong to user
+        return $this->error('use has no power', 403);
     }
 
     /**
