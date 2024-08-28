@@ -9,12 +9,16 @@ use App\Http\Requests\Api\V1\UpdateTicketRequest;
 use App\Http\Resources\V1\TicketResource;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Policies\V1\TicketPolicy;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\JsonResponse as JsonResponseAlias;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TicketController extends ApiController
 {
+    protected string $policyClass = TicketPolicy::class;
+
     /**
      * Display a listing of the resource.
      */
@@ -26,7 +30,7 @@ class TicketController extends ApiController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTicketRequest $request): JsonResponseAlias|TicketResource
+    public function store(StoreTicketRequest $request): JsonResponse|TicketResource
     {
         try {
             $user = User::query()->findOrFail($request->input('data.relationships.author.data.id'));
@@ -53,8 +57,13 @@ class TicketController extends ApiController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Ticket $ticket, UpdateTicketRequest $request): TicketResource
+    public function update(Ticket $ticket, UpdateTicketRequest $request): TicketResource|JsonResponse
     {
+        try {
+            $this->isAble('update', $ticket);
+        } catch (AuthorizationException $e) {
+            return $this->error('You are not authorized to update that resource', 403);
+        }
         $ticket->update($request->mappedAttributes());
         return TicketResource::make($ticket);
     }
