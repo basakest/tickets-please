@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Filters\V1\TicketFilter;
 use App\Http\Requests\Api\V1\ReplaceTicketRequest;
+use App\Http\Requests\Api\V1\StoreTicketRequest;
+use App\Http\Requests\Api\V1\UpdateTicketRequest;
 use App\Http\Resources\V1\TicketResource;
 use App\Models\Ticket;
 use App\Models\User;
@@ -32,15 +34,9 @@ class AuthorTicketsController extends ApiController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(User $author, Request $request): TicketResource
+    public function store(User $author, StoreTicketRequest $request): TicketResource
     {
-        $model = [
-            'title'       => $request->input('data.attributes.title'),
-            'description' => $request->input('data.attributes.description'),
-            'status'      => $request->input('data.attributes.status'),
-        ];
-
-        return new TicketResource($author->tickets()->create($model));
+        return new TicketResource($author->tickets()->create($request->mappedAttributes()));
     }
 
     /**
@@ -62,22 +58,21 @@ class AuthorTicketsController extends ApiController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(int $authorId, Ticket $ticket, UpdateTicketRequest $request): JsonResponse|TicketResource
     {
-        //
+        if ($authorId === $ticket->user_id) {
+            $ticket->update($request->mappedAttributes());
+
+            return TicketResource::make($ticket);
+        }
+        // TODO: ticket doesn't belong to user
+        return $this->error('use has no power', 403);
     }
 
     public function replace(int $authorId, Ticket $ticket, ReplaceTicketRequest $request): JsonResponse|TicketResource
     {
         if ($authorId === $ticket->user_id) {
-            $model = [
-                'title'       => $request->input('data.attributes.title'),
-                'description' => $request->input('data.attributes.description'),
-                'status'      => $request->input('data.attributes.status'),
-                'user_id'     => $request->input('data.relationships.author.data.id'),
-            ];
-
-            $ticket->update($model);
+            $ticket->update($request->mappedAttributes());
 
             return TicketResource::make($ticket);
         }

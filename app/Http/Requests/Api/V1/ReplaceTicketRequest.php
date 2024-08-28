@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests\Api\V1;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class ReplaceTicketRequest extends FormRequest
+class ReplaceTicketRequest extends BaseTicketRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,13 +24,6 @@ class ReplaceTicketRequest extends FormRequest
             'data.attributes.description'       => ['required', 'string'],
             'data.attributes.status'            => ['required', 'string', 'in:A,C,H,X'],
             'data.relationships.author.data.id' => ['required', 'integer'],
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'data.attributes.status' => 'The data.attributes.status value is invalid. Please use A, C, H, or X.',
         ];
     }
 }

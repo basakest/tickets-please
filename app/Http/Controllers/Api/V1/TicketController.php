@@ -26,7 +26,7 @@ class TicketController extends ApiController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTicketRequest $request)
+    public function store(StoreTicketRequest $request): JsonResponseAlias|TicketResource
     {
         try {
             $user = User::query()->findOrFail($request->input('data.relationships.author.data.id'));
@@ -36,13 +36,7 @@ class TicketController extends ApiController
             ]);
         }
 
-        $model = [
-            'title'       => $request->input('data.attributes.title'),
-            'description' => $request->input('data.attributes.description'),
-            'status'      => $request->input('data.attributes.status'),
-        ];
-
-        return TicketResource::make($user->tickets()->create($model));
+        return TicketResource::make($user->tickets()->create($request->mappedAttributes()));
     }
 
     /**
@@ -59,22 +53,15 @@ class TicketController extends ApiController
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTicketRequest $request, Ticket $ticket)
+    public function update(Ticket $ticket, UpdateTicketRequest $request): TicketResource
     {
-        //
+        $ticket->update($request->mappedAttributes());
+        return TicketResource::make($ticket);
     }
 
     public function replace(Ticket $ticket, ReplaceTicketRequest $request): TicketResource
     {
-        $model = [
-            'title'       => $request->input('data.attributes.title'),
-            'description' => $request->input('data.attributes.description'),
-            'status'      => $request->input('data.attributes.status'),
-            'user_id'     => $request->input('data.relationships.author.data.id'),
-        ];
-
-        $ticket->update($model);
-
+        $ticket->update($request->mappedAttributes());
         return TicketResource::make($ticket);
     }
 
