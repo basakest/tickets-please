@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Ticket;
 use App\Models\User;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,8 +16,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $user = User::factory()->create([
-            'name'  => 'basakest',
-            'email' => 'ab1652759879@qq.com',
+            'name'       => 'basakest',
+            'email'      => 'ab1652759879@qq.com',
+            'is_manager' => true,
         ]);
         $users = User::factory(9)->create();
         $users->push($user);
