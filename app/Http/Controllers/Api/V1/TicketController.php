@@ -32,7 +32,7 @@ class TicketController extends ApiController
     public function store(StoreTicketRequest $request): JsonResponse|TicketResource
     {
         try {
-            $this->isAble('store', null);
+            $this->isAble('store', Ticket::class);
         } catch (AuthorizationException $e) {
             return $this->error('You are not authorized to create ticket', 403);
         }
