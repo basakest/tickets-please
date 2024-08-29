@@ -32,17 +32,9 @@ class TicketController extends ApiController
     {
         if ($this->isAble('store', Ticket::class)) {
             $user = Auth::user();
-            // 这里是不是没有必要根据请求参数来获取对应的用户
-            // try {
-            //     $user = User::query()->findOrFail($request->input('data.relationships.author.data.id'));
-            // } catch (ModelNotFoundException $e) {
-            //     return $this->ok('User not found', [
-            //         'error' => 'The provided user id does not exists',
-            //     ]);
-            // }
             return TicketResource::make($user->tickets()->create($request->mappedAttributes()));
         }
-        return $this->error('You are not authorized to create ticket', 403);
+        return $this->notAuthorized('You are not authorized to create ticket');
     }
 
     /**
@@ -65,7 +57,7 @@ class TicketController extends ApiController
             $ticket->update($request->mappedAttributes());
             return TicketResource::make($ticket);
         }
-        return $this->error('You are not authorized to update that resource', 403);
+        return $this->notAuthorized('You are not authorized to update that resource');
     }
 
     public function replace(Ticket $ticket, ReplaceTicketRequest $request): TicketResource|JsonResponse
@@ -74,7 +66,7 @@ class TicketController extends ApiController
             $ticket->update($request->mappedAttributes());
             return TicketResource::make($ticket);
         }
-        return $this->error('You are not authorized to replace that resource', 403);
+        return $this->notAuthorized('You are not authorized to replace that resource');
     }
 
     /**
@@ -87,6 +79,6 @@ class TicketController extends ApiController
             $ticket->delete();
             return $this->ok('Ticket successfully deleted');
         }
-        return $this->error('You are not authorized to delete this resource', 403);
+        return $this->notAuthorized('You are not authorized to delete this resource');
     }
 }

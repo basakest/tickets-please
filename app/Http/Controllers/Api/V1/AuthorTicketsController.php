@@ -35,7 +35,7 @@ class AuthorTicketsController extends ApiController
                 'author' => 'user_id',
             ])));
         }
-        return $this->error('You are not authorized to create ticket', 403);
+        return $this->notAuthorized('You are not authorized to create ticket');
     }
 
     /**
@@ -55,21 +55,16 @@ class AuthorTicketsController extends ApiController
             $ticket->update($request->mappedAttributes());
             return TicketResource::make($ticket);
         }
-        return $this->error('You are not authorized to update this resource', 403);
+        return $this->notAuthorized('You are not authorized to update this resource');
     }
 
-    public function replace(int $authorId, Ticket $ticket, ReplaceTicketRequest $request): JsonResponse|TicketResource
+    public function replace(User $author, Ticket $ticket, ReplaceTicketRequest $request): JsonResponse|TicketResource
     {
         if ($this->isAble('replace', $ticket)) {
-            if ($authorId === $ticket->user_id) {
-                $ticket->update($request->mappedAttributes());
-
-                return TicketResource::make($ticket);
-            }
-            // TODO: ticket doesn't belong to user
-            return $this->error('use has no power', 403);
+            $ticket->update($request->mappedAttributes());
+            return TicketResource::make($ticket);
         }
-        return $this->error('You are not authorized to edit this resource', 403);
+        return $this->notAuthorized('You are not authorized to edit this resource');
     }
 
     /**
@@ -81,6 +76,6 @@ class AuthorTicketsController extends ApiController
             $ticket->delete();
             return $this->ok('Ticket successfully deleted');
         }
-        return $this->error('You are not authorized to delete this resource', 403);
+        return $this->notAuthorized('You are not authorized to delete this resource');
     }
 }

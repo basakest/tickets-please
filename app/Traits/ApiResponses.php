@@ -19,11 +19,25 @@ trait ApiResponses
         );
     }
 
-    protected function error($message, $statusCode): JsonResponse
+    protected function error($message = [], $status = null): JsonResponse
     {
-        return response()->json(
-            compact('message', 'statusCode'),
-            $statusCode
-        );
+        if (is_string($message)) {
+            return response()->json(
+                compact('message', 'status'),
+                $status
+            );
+        }
+        return response()->json([
+            'errors' => $message,
+        ]);
+    }
+
+    protected function notAuthorized($message): JsonResponse
+    {
+        return $this->error([
+            'status'  => 401,
+            'message' => $message,
+            'source'  => '',
+        ]);
     }
 }

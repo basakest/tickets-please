@@ -33,7 +33,7 @@ class UserController extends ApiController
             $user = User::create($request->mappedAttributes());
             return UserResource::make($user);
         }
-        return $this->error('You are not authorized to create this resource', 403);
+        return $this->notAuthorized('You are not authorized to create this resource');
     }
 
     /**
@@ -56,7 +56,7 @@ class UserController extends ApiController
             $user->update($request->mappedAttributes());
             return UserResource::make($user);
         }
-        return $this->error('You are not authorized to update this resource', 403);
+        return $this->notAuthorized('You are not authorized to update this resource');
     }
 
     public function replace(User $user, ReplaceUserRequest $request): JsonResponse|UserResource
@@ -65,7 +65,7 @@ class UserController extends ApiController
             $user->update($request->mappedAttributes());
             return UserResource::make($user);
         }
-        return $this->error('You are not authorized to update this resource', 403);
+        return $this->notAuthorized('You are not authorized to update this resource');
     }
 
     /**
@@ -77,6 +77,6 @@ class UserController extends ApiController
             $user->delete();
             return $this->ok('User successfully deleted');
         }
-        return $this->error('You are not authorized to delete this resource', 403);
+        return $this->notAuthorized('You are not authorized to delete this resource');
     }
 }
