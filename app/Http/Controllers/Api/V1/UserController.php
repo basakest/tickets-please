@@ -9,7 +9,6 @@ use App\Http\Requests\Api\V1\ReplaceUserRequest;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use App\Policies\V1\UserPolicy;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -30,13 +29,11 @@ class UserController extends ApiController
      */
     public function store(StoreUserRequest $request): JsonResponse|UserResource
     {
-        try {
-            $this->isAble('store', User::class);
+        if ($this->isAble('store', User::class)) {
             $user = User::create($request->mappedAttributes());
             return UserResource::make($user);
-        } catch (AuthorizationException $e) {
-            return $this->error('You are not authorized to create this resource', 403);
         }
+        return $this->error('You are not authorized to create this resource', 403);
     }
 
     /**
@@ -55,24 +52,20 @@ class UserController extends ApiController
      */
     public function update(User $user, UpdateUserRequest $request): JsonResponse|UserResource
     {
-        try {
-            $this->isAble('update', User::class);
+        if ($this->isAble('update', User::class)) {
             $user->update($request->mappedAttributes());
             return UserResource::make($user);
-        } catch (AuthorizationException $e) {
-            return $this->error('You are not authorized to update this resource', 403);
         }
+        return $this->error('You are not authorized to update this resource', 403);
     }
 
     public function replace(User $user, ReplaceUserRequest $request): JsonResponse|UserResource
     {
-        try {
-            $this->isAble('replace', User::class);
+        if ($this->isAble('replace', User::class)) {
             $user->update($request->mappedAttributes());
             return UserResource::make($user);
-        } catch (AuthorizationException $e) {
-            return $this->error('You are not authorized to update this resource', 403);
         }
+        return $this->error('You are not authorized to update this resource', 403);
     }
 
     /**
@@ -80,12 +73,10 @@ class UserController extends ApiController
      */
     public function destroy(User $user): JsonResponse
     {
-        try {
-            $this->isAble('delete', User::class);
+        if ($this->isAble('delete', User::class)) {
             $user->delete();
             return $this->ok('User successfully deleted');
-        } catch (AuthorizationException $e) {
-            return $this->error('You are not authorized to delete this resource', 403);
         }
+        return $this->error('You are not authorized to delete this resource', 403);
     }
 }
