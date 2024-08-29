@@ -9,12 +9,16 @@ use App\Http\Requests\Api\V1\UpdateTicketRequest;
 use App\Http\Resources\V1\TicketResource;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Policies\V1\TicketPolicy;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class AuthorTicketsController extends ApiController
 {
+    protected string $policyClass = TicketPolicy::class;
+
     /**
      * Display a listing of the resource.
      */
@@ -34,9 +38,16 @@ class AuthorTicketsController extends ApiController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(User $author, StoreTicketRequest $request): TicketResource
+    public function store(User $author, StoreTicketRequest $request): TicketResource|JsonResponse
     {
-        return new TicketResource($author->tickets()->create($request->mappedAttributes()));
+        try {
+            $this->isAble('store', Ticket::class);
+            return new TicketResource($author->tickets()->create($request->mappedAttributes([
+                'author' => 'user_id',
+            ])));
+        } catch (AuthorizationException $e) {
+            return $this->error('You are not authorized to create ticket', 403);
+        }
     }
 
     /**
@@ -60,24 +71,29 @@ class AuthorTicketsController extends ApiController
      */
     public function update(int $authorId, Ticket $ticket, UpdateTicketRequest $request): JsonResponse|TicketResource
     {
-        if ($authorId === $ticket->user_id) {
+        try {
+            $this->isAble('update', $ticket);
             $ticket->update($request->mappedAttributes());
-
             return TicketResource::make($ticket);
+        } catch (AuthorizationException $e) {
+            return $this->error('You are not authorized to update this resource', 403);
         }
-        // TODO: ticket doesn't belong to user
-        return $this->error('use has no power', 403);
     }
 
     public function replace(int $authorId, Ticket $ticket, ReplaceTicketRequest $request): JsonResponse|TicketResource
     {
-        if ($authorId === $ticket->user_id) {
-            $ticket->update($request->mappedAttributes());
+        try {
+            $this->isAble('replace', $ticket);
+            if ($authorId === $ticket->user_id) {
+                $ticket->update($request->mappedAttributes());
 
-            return TicketResource::make($ticket);
+                return TicketResource::make($ticket);
+            }
+            // TODO: ticket doesn't belong to user
+            return $this->error('use has no power', 403);
+        } catch (AuthorizationException $e) {
+            return $this->error('You are not authorized to edit this resource', 403);
         }
-        // TODO: ticket doesn't belong to user
-        return $this->error('use has no power', 403);
     }
 
     /**
@@ -85,10 +101,12 @@ class AuthorTicketsController extends ApiController
      */
     public function destroy(int $authorId, Ticket $ticket): JsonResponse
     {
-        if ($ticket->user_id === $authorId) {
+        try {
+            $this->isAble('delete', $ticket);
             $ticket->delete();
             return $this->ok('Ticket successfully deleted');
+        } catch (AuthorizationException $e) {
+            return $this->error('You are not authorized to delete this resource', 403);
         }
-        return $this->error('Ticket not found', 404);
     }
 }
