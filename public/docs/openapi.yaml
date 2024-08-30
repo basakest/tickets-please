@@ -1,0 +1,996 @@
+openapi: 3.0.3
+info:
+  title: 'Tickets Please API Documentation'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://tickets-please.test'
+paths:
+  /api/user:
+    get:
+      summary: ''
+      operationId: getApiUser
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  errors:
+                    status: 404
+                    message: 'The resource cannot be found.'
+                    source: 'he route api/user could not be found'
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: 'The resource cannot be found.'
+                      source:
+                        type: string
+                        example: 'he route api/user could not be found'
+      tags:
+        - Endpoints
+  /api/login:
+    post:
+      summary: ''
+      operationId: postApiLogin
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: kkris@example.com
+                password:
+                  type: string
+                  description: ''
+                  example: '-ZojU)?'
+              required:
+                - email
+                - password
+  /api/register:
+    post:
+      summary: ''
+      operationId: postApiRegister
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+  /api/logout:
+    post:
+      summary: ''
+      operationId: postApiLogout
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+  /api/v1/tickets:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  errors:
+                    status: 404
+                    message: 'The resource cannot be found.'
+                    source: 'he route api/v1/tickets could not be found'
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: 'The resource cannot be found.'
+                      source:
+                        type: string
+                        example: 'he route api/v1/tickets could not be found'
+      tags:
+        - Endpoints
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      properties:
+                        title:
+                          type: string
+                          description: ''
+                          example: dolore
+                        description:
+                          type: string
+                          description: ''
+                          example: 'Atque quia in id reprehenderit exercitationem enim in.'
+                        status:
+                          type: string
+                          description: ''
+                          example: A
+                          enum:
+                            - A
+                            - C
+                            - H
+                            - X
+                    relationships:
+                      type: object
+                      description: ''
+                      example: []
+                      properties:
+                        author:
+                          type: object
+                          description: ''
+                          example: []
+                          properties:
+                            data:
+                              type: object
+                              description: ''
+                              example: []
+                              properties:
+                                id:
+                                  type: integer
+                                  description: ''
+                                  example: 4
+  '/api/v1/tickets/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  errors:
+                    status: 404
+                    message: 'The resource cannot be found.'
+                    source: 'he route api/v1/tickets/1 could not be found'
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: 'The resource cannot be found.'
+                      source:
+                        type: string
+                        example: 'he route api/v1/tickets/1 could not be found'
+      tags:
+        - Endpoints
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      properties:
+                        title:
+                          type: string
+                          description: ''
+                          example: libero
+                        description:
+                          type: string
+                          description: ''
+                          example: 'Impedit aut dolores sunt ea esse doloremque et et.'
+                        status:
+                          type: string
+                          description: ''
+                          example: H
+                          enum:
+                            - A
+                            - C
+                            - H
+                            - X
+                    relationships:
+                      type: object
+                      description: ''
+                      example: []
+                      properties:
+                        author:
+                          type: object
+                          description: ''
+                          example: []
+                          properties:
+                            data:
+                              type: object
+                              description: ''
+                              example: []
+                              properties:
+                                id:
+                                  type: integer
+                                  description: ''
+                                  example: 12
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the ticket.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/tickets/{ticket_id}':
+    put:
+      summary: ''
+      operationId: putApiV1TicketsTicket_id
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      properties:
+                        title:
+                          type: string
+                          description: ''
+                          example: ea
+                        description:
+                          type: string
+                          description: ''
+                          example: 'Modi vel et numquam ut qui autem molestiae nihil.'
+                        status:
+                          type: string
+                          description: ''
+                          example: C
+                          enum:
+                            - A
+                            - C
+                            - H
+                            - X
+                    relationships:
+                      type: object
+                      description: ''
+                      example: []
+                      properties:
+                        author:
+                          type: object
+                          description: ''
+                          example: []
+                          properties:
+                            data:
+                              type: object
+                              description: ''
+                              example: []
+                              properties:
+                                id:
+                                  type: integer
+                                  description: ''
+                                  example: 6
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/users:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  errors:
+                    status: 404
+                    message: 'The resource cannot be found.'
+                    source: 'he route api/v1/users could not be found'
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: 'The resource cannot be found.'
+                      source:
+                        type: string
+                        example: 'he route api/v1/users could not be found'
+      tags:
+        - Endpoints
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      properties:
+                        name:
+                          type: string
+                          description: ''
+                          example: vel
+                        email:
+                          type: string
+                          description: 'Must be a valid email address.'
+                          example: merl13@example.net
+                        isManager:
+                          type: boolean
+                          description: ''
+                          example: true
+                        password:
+                          type: string
+                          description: ''
+                          example: 'bR,4k?'
+  '/api/v1/users/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  errors:
+                    status: 404
+                    message: 'The resource cannot be found.'
+                    source: 'he route api/v1/users/1 could not be found'
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: 'The resource cannot be found.'
+                      source:
+                        type: string
+                        example: 'he route api/v1/users/1 could not be found'
+      tags:
+        - Endpoints
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      properties:
+                        name:
+                          type: string
+                          description: ''
+                          example: et
+                        email:
+                          type: string
+                          description: 'Must be a valid email address.'
+                          example: awest@example.net
+                        isManager:
+                          type: boolean
+                          description: ''
+                          example: false
+                        password:
+                          type: string
+                          description: ''
+                          example: isgKr4
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/users/{user_id}':
+    put:
+      summary: ''
+      operationId: putApiV1UsersUser_id
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      properties:
+                        name:
+                          type: string
+                          description: ''
+                          example: maxime
+                        email:
+                          type: string
+                          description: 'Must be a valid email address.'
+                          example: sheila89@example.net
+                        isManager:
+                          type: boolean
+                          description: ''
+                          example: false
+                        password:
+                          type: string
+                          description: ''
+                          example: 'h1{Y1g'
+    parameters:
+      -
+        in: path
+        name: user_id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/authors:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  errors:
+                    status: 404
+                    message: 'The resource cannot be found.'
+                    source: 'he route api/v1/authors could not be found'
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: 'The resource cannot be found.'
+                      source:
+                        type: string
+                        example: 'he route api/v1/authors could not be found'
+      tags:
+        - Endpoints
+  '/api/v1/authors/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  errors:
+                    status: 404
+                    message: 'The resource cannot be found.'
+                    source: 'he route api/v1/authors/1 could not be found'
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: 'The resource cannot be found.'
+                      source:
+                        type: string
+                        example: 'he route api/v1/authors/1 could not be found'
+      tags:
+        - Endpoints
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the author.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/authors/{author_id}/tickets':
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  errors:
+                    status: 404
+                    message: 'The resource cannot be found.'
+                    source: 'he route api/v1/authors/1/tickets could not be found'
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: 'The resource cannot be found.'
+                      source:
+                        type: string
+                        example: 'he route api/v1/authors/1/tickets could not be found'
+      tags:
+        - Endpoints
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      properties:
+                        title:
+                          type: string
+                          description: ''
+                          example: magni
+                        description:
+                          type: string
+                          description: ''
+                          example: 'Quos in saepe voluptas non eum mollitia.'
+                        status:
+                          type: string
+                          description: ''
+                          example: X
+                          enum:
+                            - A
+                            - C
+                            - H
+                            - X
+                author:
+                  type: integer
+                  description: ''
+                  example: 4
+              required:
+                - author
+    parameters:
+      -
+        in: path
+        name: author_id
+        description: 'The ID of the author.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/authors/{author_id}/tickets/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  errors:
+                    status: 404
+                    message: 'The resource cannot be found.'
+                    source: 'he route api/v1/authors/aut/tickets/1 could not be found'
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: 'The resource cannot be found.'
+                      source:
+                        type: string
+                        example: 'he route api/v1/authors/aut/tickets/1 could not be found'
+      tags:
+        - Endpoints
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      properties:
+                        title:
+                          type: string
+                          description: ''
+                          example: cupiditate
+                        description:
+                          type: string
+                          description: ''
+                          example: 'Autem architecto perferendis esse ad non ducimus totam impedit.'
+                        status:
+                          type: string
+                          description: ''
+                          example: C
+                          enum:
+                            - A
+                            - C
+                            - H
+                            - X
+                    relationships:
+                      type: object
+                      description: ''
+                      example: []
+                      properties:
+                        author:
+                          type: object
+                          description: ''
+                          example: []
+                          properties:
+                            data:
+                              type: object
+                              description: ''
+                              example: []
+                              properties:
+                                id:
+                                  type: integer
+                                  description: ''
+                                  example: 12
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: author_id
+        description: 'The ID of the author.'
+        example: aut
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: id
+        description: 'The ID of the ticket.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/authors/{author_id}/tickets/{ticket_id}':
+    put:
+      summary: ''
+      operationId: putApiV1AuthorsAuthor_idTicketsTicket_id
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      properties:
+                        title:
+                          type: string
+                          description: ''
+                          example: rerum
+                        description:
+                          type: string
+                          description: ''
+                          example: 'Molestiae fuga reprehenderit repellat rerum fugiat error placeat.'
+                        status:
+                          type: string
+                          description: ''
+                          example: C
+                          enum:
+                            - A
+                            - C
+                            - H
+                            - X
+                    relationships:
+                      type: object
+                      description: ''
+                      example: []
+                      properties:
+                        author:
+                          type: object
+                          description: ''
+                          example: []
+                          properties:
+                            data:
+                              type: object
+                              description: ''
+                              example: []
+                              properties:
+                                id:
+                                  type: integer
+                                  description: ''
+                                  example: 9
+    parameters:
+      -
+        in: path
+        name: author_id
+        description: 'The ID of the author.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/user:
+    get:
+      summary: ''
+      operationId: getApiV1User
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  errors:
+                    status: 404
+                    message: 'The resource cannot be found.'
+                    source: 'he route api/v1/user could not be found'
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: 'The resource cannot be found.'
+                      source:
+                        type: string
+                        example: 'he route api/v1/user could not be found'
+      tags:
+        - Endpoints
+tags:
+  -
+    name: Endpoints
+    description: ''
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.'
+security:
+  -
+    default: []

@@ -15,9 +15,19 @@ class AuthController extends Controller
     use ApiResponses;
 
     /**
-     * @param LoginUserRequest $request
+     * Login
      *
-     * @return JsonResponse
+     * Authenticates the user and returns the user's API token.
+     *
+     * @unauthenticated
+     * @group Authentication
+     * @response 200 {
+    "data": {
+    "token": "{YOUR_AUTH_KEY}"
+    },
+    "message": "Authenticated",
+    "status": 200
+    }
      */
     public function login(LoginUserRequest $request): JsonResponse
     {
@@ -35,6 +45,14 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Logout
+     *
+     * Signs out the user and destroy the API token.
+     *
+     * @group Authentication
+     * @response 200 {}
+     */
     public function logout(): JsonResponse
     {
         Auth::user()->currentAccessToken()->delete();

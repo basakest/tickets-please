@@ -18,7 +18,19 @@ class AuthorTicketsController extends ApiController
     protected string $policyClass = TicketPolicy::class;
 
     /**
-     * Display a listing of the resource.
+     * Get all tickets
+     *
+     * Retrieves all tickets created by a specific user.
+     *
+     * @group Managing Tickets by Author
+     *
+     * @urlParam author_id integer required The author's ID. No-example
+     *
+     * @response 200 {"data":[{"type":"user","id":3,"attributes":{"name":"Mr. Henri Beatty MD","email":"bmertz@example.net","isManager":false,"emailVerifiedAt":"2024-03-14T04:41:51.000000Z","createdAt":"2024-03-14T04:41:51.000000Z","udpatedAt":"2024-03-14T04:41:51.000000Z"},"links":{"self":"http:\/\/localhost:8000\/api\/v1\/authors\/3"}}],"links":{"first":"http:\/\/localhost:8000\/api\/v1\/authors?page=1","last":"http:\/\/localhost:8000\/api\/v1\/authors?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":1,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:8000\/api\/v1\/authors?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost:8000\/api\/v1\/authors","per_page":15,"to":1,"total":10}}
+     *
+     * @queryParam sort string Data field(s) to sort by. Separate multiple fields with commas. Denote descending sort with a minus sign. Example: sort=name
+     * @queryParam filter[name] Filter by name. Wildcards are supported.
+     * @queryParam filter[email] Filter by email. Wildcards are supported.
      */
     public function index(User $author, TicketFilter $filters): AnonymousResourceCollection
     {
@@ -26,7 +38,14 @@ class AuthorTicketsController extends ApiController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a ticket
+     *
+     * Creates a ticket for the specific user.
+     *
+     * @group Managing Tickets by Author
+     *
+     * @urlParam author_id integer required The author's ID. No-example
+     *
      */
     public function store(User $author, StoreTicketRequest $request): TicketResource|JsonResponse
     {
@@ -47,7 +66,13 @@ class AuthorTicketsController extends ApiController
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update an author's ticket
+     *
+     * Updates an author's ticket.
+     *
+     * @group Managing Tickets by Author
+     * @urlParam author_id integer required The author's ID. No-example
+     * @urlParam ticket_id integer required The ticket ID. No-example
      */
     public function update(int $authorId, Ticket $ticket, UpdateTicketRequest $request): JsonResponse|TicketResource
     {
@@ -58,6 +83,16 @@ class AuthorTicketsController extends ApiController
         return $this->notAuthorized('You are not authorized to update this resource');
     }
 
+    /**
+     * Replace an author's ticket
+     *
+     * Replaces an author's ticket.
+     *
+     * @group Managing Tickets by Author
+     * @urlParam author_id integer required The author's ID. No-example
+     * @urlParam ticket_id integer required The ticket ID. No-example
+     * @response {"data":{"type":"ticket","id":107,"attributes":{"title":"asdfasdfasdfasdfasdfsadf","description":"test ticket","status":"A","createdAt":"2024-03-26T04:40:48.000000Z","updatedAt":"2024-03-26T04:40:48.000000Z"},"relationships":{"author":{"data":{"type":"user","id":1},"links":{"self":"http:\/\/localhost:8000\/api\/v1\/authors\/1"}}},"links":{"self":"http:\/\/localhost:8000\/api\/v1\/tickets\/107"}}}
+     */
     public function replace(User $author, Ticket $ticket, ReplaceTicketRequest $request): JsonResponse|TicketResource
     {
         if ($this->isAble('replace', $ticket)) {
@@ -68,7 +103,14 @@ class AuthorTicketsController extends ApiController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete an author's ticket
+     *
+     * Deletes an author's ticket.
+     *
+     * @group    Managing Tickets by Author
+     * @urlParam author_id integer required The author's ID. No-example
+     * @urlParam id integer required The ticket ID. No-example
+     * @response {}
      */
     public function destroy(int $authorId, Ticket $ticket): JsonResponse
     {
